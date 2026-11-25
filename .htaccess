@@ -1,0 +1,9 @@
+ErrorDocument 404 404.php
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(?:config|sql|tests)(?:/|$) - [F,NC,L]
+RewriteRule ^alertes\.php$ - [G,L]
+RewriteRule ^install\.php$ - [G,L]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+RewriteRule ^ index.php [QSA,L]

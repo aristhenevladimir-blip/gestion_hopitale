@@ -1,0 +1,11 @@
+# XAMPP / local environment
+.env
+.env.*
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
+
+# PHP
+vendor/
+composer.phar
