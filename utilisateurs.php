@@ -83,11 +83,7 @@ require_once __DIR__ . "/includes/header.php";
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <button class="mr-3 text-emerald-700"><?= $u["role"] === "disabled" ? "Activer" : "Désactiver" ?></button>
                         </form>
-                        <form method="post" class="inline" onsubmit="return confirm('Supprimer ?');"><?php csrf_field(); ?>
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id" value="<?= $id ?>">
-                            <button class="text-red-600">Supprimer</button>
-                        </form>
+                        <button type="button" onclick="confirmAction('Supprimer cet utilisateur ?', '', 'delete', <?= $id ?>)" class="text-red-600">Supprimer</button>
                     <?php else: ?>Vous<?php endif; ?>
                 </td>
             </tr>

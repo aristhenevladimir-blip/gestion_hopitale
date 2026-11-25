@@ -98,7 +98,7 @@ function nav_active($href, $currentPath) {
         <main class="flex-1 p-6">
 <script>
 function toggleSidebar(){var s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay');s.classList.toggle('-translate-x-full');o.classList.toggle('hidden');}
-function confirmAction(message,url){document.getElementById('confirmMsg').textContent=message;document.getElementById('confirmForm').action=url;document.getElementById('confirmModal').classList.remove('hidden');}
+function confirmAction(message,url,action,id){document.getElementById('confirmMsg').textContent=message;document.getElementById('confirmForm').action=url||location.href;document.getElementById('confirmActionName').value=action||'';document.getElementById('confirmTargetId').value=id||'';document.getElementById('confirmModal').classList.remove('hidden');}
 function closeConfirm(){document.getElementById('confirmModal').classList.add('hidden');}
 </script>
 <div id="confirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -107,6 +107,8 @@ function closeConfirm(){document.getElementById('confirmModal').classList.add('h
         <p id="confirmMsg" class="text-slate-600 text-sm mb-4"></p>
         <form id="confirmForm" method="post" class="flex gap-3 justify-end">
             <?php csrf_field(); ?>
+            <input id="confirmActionName" type="hidden" name="action">
+            <input id="confirmTargetId" type="hidden" name="id">
             <button type="button" onclick="closeConfirm()" class="px-4 py-2 text-sm rounded-md bg-slate-100 hover:bg-slate-200 transition">Annuler</button>
             <button type="submit" class="px-4 py-2 text-sm rounded-md bg-red-600 hover:bg-red-700 text-white transition">Confirmer</button>
         </form>

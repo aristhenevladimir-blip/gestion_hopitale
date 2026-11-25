@@ -115,10 +115,7 @@ $duMois = count(array_filter($consultations, fn($c) => str_starts_with($c['Date_
                     <td class="px-6 py-3 text-center">
                         <div class="flex items-center justify-center gap-2">
                             <a href="<?= escape_html(url('/consultations/modifier.php?no=' . $no)) ?>" title="Modifier" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></a>
-                            <form method="post" action="<?= escape_html(url('/consultations/supprimer.php?no=' . $no)) ?>" onsubmit="return confirm('Supprimer la consultation #<?= $no ?> ? Cette action est irréversible.');" style="display:inline;">
-                                <?php csrf_field(); ?>
-                                <button type="submit" title="Supprimer" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-                            </form>
+                            <button type="button" title="Supprimer" onclick="confirmAction('Supprimer la consultation #<?= $no ?> ?', '<?= escape_html(url('/consultations/supprimer.php?no=' . $no)) ?>')" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </div>
                     </td>
                 </tr>
