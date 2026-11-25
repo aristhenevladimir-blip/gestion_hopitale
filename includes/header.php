@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../config/base.php";
 start_app_session();
 require_once __DIR__ . "/csrf.php";
+require_once __DIR__ . "/formatters.php";
 $base = BASE_URL;
 $currentPath = parse_url($_SERVER["REQUEST_URI"] ?? "", PHP_URL_PATH) ?: "/";
 $username = $_SESSION["user"]["username"] ?? "";
@@ -51,7 +52,6 @@ function nav_active($href, $currentPath) {
                 ["href" => url("/index.php"), "icon" => "layout-dashboard", "label" => "Tableau de bord", "sub" => false],
                 ["href" => url("/patients/ajouter.php"), "icon" => "user-plus", "label" => "Ajouter patient", "sub" => false],
                 ["href" => url("/patients/rechercher.php"), "icon" => "search", "label" => "Rechercher", "sub" => false],
-                ["href" => url("/consultations/index.php"), "icon" => "stethoscope", "label" => "Consultations", "sub" => false],
                 ["href" => url("/consultations/liste.php"), "icon" => "list", "label" => "Liste des consultations", "sub" => true],
                 ["href" => url("/profil.php"), "icon" => "user", "label" => "Profil", "sub" => false],
             ];
