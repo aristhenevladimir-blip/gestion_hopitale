@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . "/../includes/consultation_validation.php";
-require_once __DIR__ . "/../includes/consultation_schema.php";
 
 $values = [
     "id_patient" => 1,
