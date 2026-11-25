@@ -3,7 +3,6 @@ require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../config/base.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST" || !csrf_verify()) {
     $_SESSION["msg"] = "Action invalide. Rechargez la page et réessayez.";
@@ -20,7 +19,6 @@ if ($no > 0 && $texte !== "") {
     $stmt = $pdo->prepare("DELETE FROM prescription WHERE no_consultation = ? AND prescription = ?");
     $stmt->execute([$no, $texte]);
     if ($stmt->rowCount() > 0) {
-        log_activity($pdo, "suppression", "Prescription supprimée (consultation #" . $no . ")");
         $_SESSION["msg"] = "Prescription supprimée.";
         $_SESSION["msg_type"] = "success";
     } else {

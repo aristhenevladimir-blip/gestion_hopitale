@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/patient_schema.php";
 
 $errors = [];
@@ -25,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->prepare("INSERT INTO patient (Nom, Prenom, Sexe, Tel, Adresse, Email, Date_enregistrement) VALUES (?,?,?,?,?,?,?)")
                 ->execute([$nom, $prenom, $sexe, $tel, $adresse, $email, $date]);
             $id = (int) $pdo->lastInsertId();
-            log_activity($pdo, "patient", "Patient ajouté #" . $id . " (" . $nom . " " . $prenom . ")");
             $_SESSION["msg"] = "Patient enregistré avec succès. Code patient : $id";
             $_SESSION["msg_type"] = "success";
             header("Location: " . url("/patients/rechercher.php?code=" . $id));

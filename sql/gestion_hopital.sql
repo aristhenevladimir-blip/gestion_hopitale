@@ -28,15 +28,7 @@ CREATE TABLE IF NOT EXISTS prescription (
 CREATE TABLE IF NOT EXISTS utilisateur (
     id_utilisateur INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE, password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) DEFAULT 'user', date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
-    derniere_connexion DATETIME NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS journal_activite (
-    id_journal INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_utilisateur INT(11) NULL, username VARCHAR(50) NULL,
-    action VARCHAR(50) NOT NULL, details VARCHAR(255) NULL,
-    date_action DATETIME DEFAULT CURRENT_TIMESTAMP
+    role VARCHAR(20) DEFAULT 'user', date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO utilisateur (username, password_hash, role) VALUES

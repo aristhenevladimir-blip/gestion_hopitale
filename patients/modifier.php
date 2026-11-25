@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/patient_schema.php";
 
 $code = (int) ($_GET["code"] ?? 0);
@@ -42,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($errors)) {
             $pdo->prepare("UPDATE patient SET Nom=?, Prenom=?, Sexe=?, Tel=?, Adresse=?, Email=?, Date_enregistrement=? WHERE Id_Patient=?")
                 ->execute([$nom, $prenom, $sexe, $tel, $adresse, $email, $date, $code]);
-            log_activity($pdo, "patient", "Patient modifié #" . $code);
             $_SESSION["msg"] = "Patient #$code modifié avec succès.";
             $_SESSION["msg_type"] = "success";
             header("Location: " . url("/patients/rechercher.php?code=" . $code));

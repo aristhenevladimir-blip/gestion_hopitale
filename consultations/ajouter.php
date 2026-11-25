@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/consultation_validation.php";
 
 $patients = $pdo->query("SELECT Id_Patient, Nom, Prenom FROM patient ORDER BY Nom, Prenom")->fetchAll();
@@ -44,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $pdo->prepare("INSERT INTO consultation (" . implode(", ", $cols) . ") VALUES (" . implode(", ", array_fill(0, count($cols), "?")) . ")")
                     ->execute(array_values($fields));
                 $no = (int) $pdo->lastInsertId();
-                log_activity($pdo, "consultation", "Consultation ajoutée #" . $no . " (patient #" . $values["id_patient"] . ")");
                 $_SESSION["msg"] = "Consultation enregistrée (n° $no). Vous pouvez maintenant ajouter le traitement et les prescriptions.";
                 $_SESSION["msg_type"] = "success";
                 header("Location: " . url("/prescriptions/ajouter.php?no=" . $no));

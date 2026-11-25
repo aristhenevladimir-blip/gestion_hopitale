@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/formatters.php";
 
 $no = (int) ($_GET["no"] ?? 0);
@@ -42,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 $pdo->prepare("UPDATE prescription SET prescription = ? WHERE no_consultation = ? AND prescription = ?")
                     ->execute([$texte, (int) $presc["no_consultation"], $originalText]);
-                log_activity($pdo, "prescription", "Prescription modifiée pour la consultation #" . (int) $presc["no_consultation"]);
                 $_SESSION["msg"] = "Prescription modifiée avec succès.";
                 $_SESSION["msg_type"] = "success";
                 header("Location: " . url("/prescriptions/liste.php?no=" . (int) $presc["no_consultation"]));

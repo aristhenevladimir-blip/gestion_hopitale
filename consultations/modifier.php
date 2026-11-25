@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/consultation_validation.php";
 
 $pageTitle = "Modifier une consultation";
@@ -57,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $sql = "UPDATE consultation SET Id_Patient=?, Nom_Prenom_medecin=?, Telephone=?,
                         Poids=?, Taille_cm=?, Diagnostique=?, Date_Consultation=? WHERE no_Consultation=?";
                 $pdo->prepare($sql)->execute([...array_values($fields), $no]);
-                log_activity($pdo, "consultation", "Consultation modifiée #" . $no);
                 $_SESSION["msg"] = "Consultation #$no modifiée avec succès.";
                 $_SESSION["msg_type"] = "success";
                 header("Location: " . url("/consultations/liste.php"));

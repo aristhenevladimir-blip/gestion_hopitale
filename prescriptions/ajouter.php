@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../config/db.php";
 require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ . "/../includes/csrf.php";
-require_once __DIR__ . "/../includes/activity.php";
 require_once __DIR__ . "/../includes/formatters.php";
 
 $selectedNo = (int) ($_GET["no"] ?? ($_POST["no_consultation"] ?? 0));
@@ -42,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $errors[] = "Cette prescription existe déjà pour cette consultation.";
                 } else {
                     $pdo->prepare("INSERT INTO prescription (no_consultation, prescription) VALUES (?,?)")->execute([$selectedNo, $texte]);
-                    log_activity($pdo, "prescription", "Prescription ajoutée à la consultation #" . $selectedNo);
                     $_SESSION["msg"] = "Prescription enregistrée avec succès.";
                     $_SESSION["msg_type"] = "success";
                     header("Location: " . url("/prescriptions/" . ($another ? "ajouter" : "liste") . ".php?no=" . $selectedNo));

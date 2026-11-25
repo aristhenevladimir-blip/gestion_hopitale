@@ -20,13 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             else {
                 session_regenerate_id(true);
                 $_SESSION["user"] = ["id" => $user["id_utilisateur"], "username" => $user["username"], "role" => $user["role"]];
-                $_SESSION["last_login"] = date("Y-m-d H:i:s");
-                try {
-                    require_once __DIR__ . "/includes/activity.php";
-                    ensure_activity_log_table($pdo);
-                    $pdo->prepare("UPDATE utilisateur SET derniere_connexion = NOW() WHERE id_utilisateur = ?")->execute([$user["id_utilisateur"]]);
-                    log_activity($pdo, "connexion", "Connexion réussie");
-                } catch (Exception $e) {}
                 header("Location: " . url("/index.php")); exit();
             }
         } else { $erreur = "Identifiants incorrects."; }
