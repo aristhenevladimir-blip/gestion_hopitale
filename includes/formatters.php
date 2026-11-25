@@ -13,18 +13,6 @@ function format_datetime_fr($value) {
     return $t ? date("d/m/Y H:i", $t) : (string) $value;
 }
 
-function french_months() {
-    return [1=>"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-}
-
-function format_long_date_fr($value) {
-    if (!$value) return "—";
-    $t = strtotime((string) $value);
-    if (!$t) return (string) $value;
-    $m = french_months();
-    return date("j", $t) . " " . $m[(int) date("n", $t)] . " " . date("Y", $t);
-}
-
 function text_length($value) {
     $text = (string) $value;
     return function_exists("mb_strlen") ? mb_strlen($text, "UTF-8") : strlen($text);

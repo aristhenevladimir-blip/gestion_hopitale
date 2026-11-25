@@ -3,7 +3,6 @@ require_once __DIR__ . "/../config/base.php";
 start_app_session();
 require_once __DIR__ . "/csrf.php";
 require_once __DIR__ . "/formatters.php";
-$base = BASE_URL;
 $currentPath = parse_url($_SERVER["REQUEST_URI"] ?? "", PHP_URL_PATH) ?: "/";
 $username = $_SESSION["user"]["username"] ?? "";
 $role = $_SESSION["user"]["role"] ?? "";
@@ -79,10 +78,9 @@ function nav_active($href, $currentPath) {
         <header class="sticky top-0 z-30 bg-white border-b border-slate-200">
             <div class="flex items-center justify-between px-6 py-3 gap-4 pl-16 lg:pl-6">
                 <div class="flex-1 max-w-md">
-                    <form id="patientQuickSearch" action="<?= escape_html(url("/patients/rechercher.php")) ?>" method="get" class="relative">
+                    <form action="<?= escape_html(url("/patients/rechercher.php")) ?>" method="get" class="relative">
                         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input id="patientQuickSearchInput" type="search" name="code" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="patientSearchSuggestions" aria-expanded="false" placeholder="Rechercher par code ou nom..." class="w-full pl-10 pr-4 py-2 rounded-md border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                        <div id="patientSearchSuggestions" role="listbox" class="absolute left-0 right-0 top-full z-50 mt-1 hidden overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg"></div>
+                        <input type="search" name="code" placeholder="Rechercher par code ou nom..." class="w-full pl-10 pr-4 py-2 rounded-md border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                     </form>
                 </div>
                 <div class="text-sm text-slate-500 hidden sm:block">
@@ -99,19 +97,9 @@ function nav_active($href, $currentPath) {
 
         <main class="flex-1 p-6">
 <script>
-window.BASE_URL=<?= json_encode($base) ?>;
 function toggleSidebar(){var s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay');s.classList.toggle('-translate-x-full');o.classList.toggle('hidden');}
 function confirmAction(message,url){document.getElementById('confirmMsg').textContent=message;document.getElementById('confirmForm').action=url;document.getElementById('confirmModal').classList.remove('hidden');}
 function closeConfirm(){document.getElementById('confirmModal').classList.add('hidden');}
-(function(){var input=document.getElementById('patientQuickSearchInput'),list=document.getElementById('patientSearchSuggestions');if(!input||!list)return;var timer=null,controller=null;
-function closeList(){list.classList.add('hidden');input.setAttribute('aria-expanded','false');}
-function showMessage(msg){list.replaceChildren();var d=document.createElement('div');d.className='px-3 py-2 text-sm text-slate-500';d.textContent=msg;list.appendChild(d);list.classList.remove('hidden');input.setAttribute('aria-expanded','true');}
-async function searchPatients(term){if(controller)controller.abort();controller=new AbortController();try{var r=await fetch(window.BASE_URL+'/patients/suggestions.php?q='+encodeURIComponent(term),{headers:{Accept:'application/json'},signal:controller.signal});if(!r.ok)throw new Error('HTTP '+r.status);var data=await r.json();list.replaceChildren();if(!data.items||data.items.length===0){showMessage('Aucun patient correspondant.');return;}data.items.forEach(function(p){var btn=document.createElement('button');btn.type='button';btn.setAttribute('role','option');btn.className='flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-emerald-50 focus:bg-emerald-50 focus:outline-none';var name=document.createElement('span');name.className='min-w-0 truncate font-medium text-slate-800';name.textContent=p.nom+' '+p.prenom;var code=document.createElement('span');code.className='shrink-0 text-xs text-slate-500';code.textContent='PAT-'+String(p.id).padStart(3,'0');btn.append(name,code);btn.addEventListener('click',function(){window.location.href=window.BASE_URL+'/patients/rechercher.php?code='+encodeURIComponent(p.id);});list.appendChild(btn);});list.classList.remove('hidden');input.setAttribute('aria-expanded','true');}catch(e){if(e.name==='AbortError')return;showMessage('Impossible de charger les suggestions.');}}
-input.addEventListener('input',function(){var t=input.value.trim();if(!t){closeList();return;}clearTimeout(timer);timer=setTimeout(function(){searchPatients(t);},180);});
-input.addEventListener('focus',function(){if(input.value.trim())searchPatients(input.value.trim());});
-document.addEventListener('click',function(e){if(!e.target.closest('#patientQuickSearch'))closeList();});
-input.addEventListener('keydown',function(e){if(e.key==='Escape')closeList();});
-})();
 </script>
 <div id="confirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
     <div class="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full mx-4">
